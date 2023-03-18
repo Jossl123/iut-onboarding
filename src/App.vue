@@ -1,7 +1,6 @@
 <template>
   <div class="view-container">
     <Background ref="background" />
-
     <DateAndHourHeader />
     <Menus
       v-if="Object.keys(views).includes('menus')"
@@ -19,6 +18,9 @@
       v-if="Object.keys(views).includes('weather')"
       :isActive="currentView == 'weather'"
     />
+    <Advertisement
+      v-if="Object.keys(views).includes('advertisement')"
+      :isActive="currentView == 'advertisement'"/>
     <Discord
       v-if="Object.keys(views).includes('discord')"
       :isActive="currentView == 'discord'"
@@ -44,6 +46,7 @@ import Weather from "./views/Weather.vue";
 import Planning from "./views/NextPlannings.vue";
 import Discord from "./views/Discord.vue";
 import MaintainerProposal from "./views/MaintainerProposal.vue";
+import Advertisement from "./views/Advertisement.vue";
 
 import "./stylesheets/reset.css";
 
@@ -52,7 +55,7 @@ const DEVELOPEMENT_MODE = false;
 export default {
   data() {
     return {
-      currentView: "transport",
+      currentView: "planning",
       views: {
         /*
           To active only one or some views, juste comment here what you dont want to be
@@ -69,6 +72,10 @@ export default {
             new Date().getHours() * 60 + new Date().getMinutes();
             return currentTime >= 6 * 60 && currentTime <= 17 * 60 + 30;
           }
+        },
+        advertisement: {
+          time: () => DEVELOPEMENT_MODE ? 10000 : 1000 * 7,
+          allowed: () => true,
         },
         transport: {
           time: () => DEVELOPEMENT_MODE ? 10000 : 1000 * 7,
@@ -181,6 +188,7 @@ export default {
     LoadingBar,
     Discord,
     MaintainerProposal,
+    Advertisement,
   },
 };
 </script>
